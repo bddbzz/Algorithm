@@ -17,9 +17,12 @@ namespace GeekMath
         //2路归并排序算法，时间复杂度是O(NlogN)
         //3路归并排序的时间复杂度为O(NlogN)，其中logN以3为底
         //尽管3路合并排序与2路相比，时间复杂度看起来比较少，但实际上花费的时间会变得更高，因为合并功能中的比较次数会增加。类似的问题还有二分查找比三分查找更受欢迎。
+        //分为多组合并后，可能会带来以下问题：
+        //(1)程序更复杂，当其中的一组被合并后，剩下的那几组还是要继续合并的过程，而分为两组时，当其中一组合并后，剩下的那一组只需要直接并入结果集即可；
+        //(2)分为多组合并后，如果仍采用递归算法，则会增加递归的次数，增加系统的开销。
         public static void Run()
         {
-            int[] arr = { 7, 6, 2, 4, 1, 9, 3, 8, 0, 5, 11 };
+            int[] arr = { 7, 6, 2, 4, 1, 9, 3, 8, 0, 5, 11, 10 };
             int[] result = Sort(arr);
             Console.WriteLine(String.Join(" ", result));
         }
@@ -45,43 +48,44 @@ namespace GeekMath
 
         static int[] Merge(int[] left, int[] right)
         {
-            ArrayList result = new ArrayList();
-            while (left.Length > 0 && right.Length > 0)
+            int rLen = right.Length;
+            int ri = 0;
+            int lLen = left.Length;
+            int li = 0;
+            int[] result = new int[rLen + lLen];
+            int i = 0;
+            while (ri < rLen && li < lLen)
             {
-                if (left[0] > right[0])
+                if (left[li] > right[ri])
                 {
-                    result.Add(right[0]);
-                    right = ArraySplice(right, 0);
+                    result[i] = right[ri];
+                    ri++;
+                    i++;
                 }
                 else
                 {
-                    result.Add(left[0]);
-                    left = ArraySplice(left, 0);
-
+                    result[i] = left[li];
+                    li++;
+                    i++;
                 }
             }
-            if (left.Length > 0)
+            if (li < lLen)
             {
-                foreach (var item in left)
+                for(int j = li; j < lLen; j++)
                 {
-                    result.Add(item);
+                    result[i] = left[j];
+                    i++;
                 }
             }
-            if (right.Length > 0)
+            if (ri < rLen)
             {
-                foreach (var item in right)
+                for (int j = ri; j < rLen; j++)
                 {
-                    result.Add(item);
+                    result[i] = right[j];
+                    i++;
                 }
             }
-            return (int[])result.ToArray(typeof(int));
-        }
-
-        static int[] ArraySplice(int[] arr, int index)
-        {
-            List<int> list = arr.ToList();
-            list.RemoveAt(index);
-            return list.ToArray();
+            return result;
         }
 
     }
