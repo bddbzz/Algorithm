@@ -6,7 +6,7 @@ namespace GeekMath
     {
         static void Main(string[] args)
         {
-            Permutation.Run();
+            Combination.Run();
 
             Console.ReadKey();
         }
