@@ -6,7 +6,9 @@ namespace GeekMath
     {
         static void Main(string[] args)
         {
-            MergeSort.Run();
+            Permutation.Run();
+
+            Console.ReadKey();
         }
     }
 }
