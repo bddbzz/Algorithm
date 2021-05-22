@@ -42,6 +42,7 @@ namespace GeekMath
             Console.WriteLine(GetUniquePaths(2, 2));
             int[,] arr = { { 1, 23, 4 }, { 3, 6, 9 }, { 15, 16, 20 } };
             Console.WriteLine(GetMinimumPathSum(arr));
+            Console.WriteLine(GetMinDistance("horse", "ros"));
         }
 
         //leecode 322: 你有三种硬币，2元、5元、7元，每种硬币足够多，买一本书需要27元，用最少的硬币组合
@@ -150,7 +151,7 @@ namespace GeekMath
             return dp[m - 1, n - 1];
         }
 
-        public int MinPathSum(int[][] grid)
+        static int MinPathSum(int[][] grid)
         {
             int m = grid.Length;
             int n = grid[0].Length;
@@ -176,6 +177,40 @@ namespace GeekMath
                 }
             }
             return dp[m - 1, n - 1];
+        }
+        //求编辑距离
+        static int GetMinDistance(string word1, string word2)
+        {
+            if (word1 == word2)
+            {
+                return 0;
+            }
+            int n1 = word1.Length;
+            int n2 = word2.Length;
+            int[,] dp = new int[n1 + 1, n2 + 1];
+            for (int j = 1; j < n2; j++)
+            {
+                dp[0, j] = dp[0, j - 1] + 1;
+            }
+            for (int i = 1; i < n1; i++)
+            {
+                dp[i, 0] = dp[i - 1, 0] + 1;
+            }
+            for (int i = 1; i <= n1; i++)
+            {
+                for (int j = 1; j <= n2; j++)
+                {
+                    if (word1[i - 1] == word2[j - 1])
+                    {
+                        dp[i, j] = dp[i - 1, j - 1];
+                    }
+                    else
+                    {
+                        dp[i, j] = Math.Min(Math.Min(dp[i - 1, j - 1], dp[i - 1, j]), dp[i, j - 1]) + 1;
+                    }
+                }
+            }
+            return dp[n1, n2];
         }
     }
 }
