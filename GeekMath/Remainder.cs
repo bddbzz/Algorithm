@@ -11,8 +11,6 @@ namespace GeekMath
         //同余定律，简单来说，就是两个整数 a 和 b，如果它们除以正整数 m 得到的余数相等，我们就可以说 a 和 b 对于模 m 同余，余数肯定在一个范围内
         //加入随机数可用于对数据重新洗牌的场景
         //常规的取余就是均分
-
-
         public static void Run()
         {
             //DivideArray();
